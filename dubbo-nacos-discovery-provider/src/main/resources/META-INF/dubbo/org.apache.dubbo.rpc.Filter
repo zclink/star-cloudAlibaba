@@ -1,0 +1,1 @@
+dubboServiceFilter=com.gupaoedu.sca.filter.DubboServiceFilter

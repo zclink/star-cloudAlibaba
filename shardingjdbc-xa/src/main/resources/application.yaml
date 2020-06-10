@@ -1,0 +1,17 @@
+
+server:
+  port: 8905
+
+spring:
+  application:
+    name: shardingjdbc-xa
+
+mybatis:
+  demo:
+    configuration:
+      cache-enabled: false
+      local-cache-scope: statement
+      log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+      map-underscore-to-camel-case: true
+    type-aliases-package: com.gupaoedu.sca.dao
+

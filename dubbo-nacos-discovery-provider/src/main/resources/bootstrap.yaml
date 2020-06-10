@@ -1,0 +1,23 @@
+
+dubbo:
+  scan:
+    base-packages: com.gupaoedu.sca.impl
+  protocol:
+    name: dubbo
+    port: 9100
+  registry:
+    address: spring-cloud://localhost
+  cloud:
+    subscribed-services:
+  provider:
+    delay: -1
+
+spring:
+  application:
+    name: dubbo-provider
+  main:
+    allow-bean-definition-overriding: true
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 10.16.0.21:8848,10.16.0.22:8848,10.16.0.23:8848

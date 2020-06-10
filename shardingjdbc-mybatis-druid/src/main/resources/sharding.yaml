@@ -1,0 +1,60 @@
+spring:
+  shardingsphere:
+    datasource:
+      names: ds0,ds1
+      ds0:
+        driver-class-name: com.mysql.jdbc.Driver
+        type: com.alibaba.druid.pool.DruidDataSource
+        url: jdbc:mysql://10.16.0.21:3306/demo_ds_0?serverTimezone=UTC&useSSL=false
+        username:
+        password:
+        filters: stat,wall,log4j2
+        initialSize: 5
+        maxActive: 20
+        maxPoolPreparedStatementPerConnectionSize: 20
+        maxWait: 60000
+        minEvictableIdleTimeMillis: 300000
+        minIdle: 5
+        poolPreparedStatements: true
+        testOnBorrow: false
+        testOnReturn: false
+        testWhileIdle: true
+        timeBetweenEvictionRunsMillis: 60000
+        validationQuery: SELECT 1 FROM DUAL
+      ds1:
+        driver-class-name: com.mysql.jdbc.Driver
+        type: com.alibaba.druid.pool.DruidDataSource
+        url: jdbc:mysql://10.16.0.21:3306/demo_ds_1?serverTimezone=UTC&useSSL=false
+        username:
+        password:
+        filters: stat,wall,log4j2
+        initialSize: 5
+        maxActive: 20
+        maxPoolPreparedStatementPerConnectionSize: 20
+        maxWait: 60000
+        minEvictableIdleTimeMillis: 300000
+        minIdle: 5
+        poolPreparedStatements: true
+        testOnBorrow: false
+        testOnReturn: false
+        testWhileIdle: true
+        timeBetweenEvictionRunsMillis: 60000
+        validationQuery: SELECT 1 FROM DUAL
+    sharding:
+      binding-tables: t_order
+      default-database-strategy:
+        inline:
+          algorithm-expression: ds$->{if(user_id%10 < 5) {return 0;} else {return 1;}}
+          sharding-column: user_id
+      tables:
+        t_order:
+          actual-data-nodes: ds$->{0..1}.t_order_$->{0..1}
+          key-generator:
+            column: order_id
+            type: SNOWFLAKE
+          table-strategy:
+            inline:
+              algorithm-expression: t_order_$->{user_id % 2}
+              sharding-column: user_id
+    props:
+      sql.show: true

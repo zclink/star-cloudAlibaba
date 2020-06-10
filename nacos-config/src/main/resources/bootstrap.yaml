@@ -1,0 +1,26 @@
+server:
+  port: 8902
+
+
+
+spring:
+  application:
+    name: nacos-config
+  profiles:
+    active: test
+  main:
+    allow-bean-definition-overriding: true
+  cloud:
+    nacos:
+      config:
+        server-addr: 10.16.0.21:8848,10.16.0.22:8848,10.16.0.23:8848 #端口必须写
+        shared-configs: #配置多个自定义配置
+         - data-id : nacos-config-1.yaml #这里的文件扩展名不受file-extension配置影响
+           group: DEFAULT_GROUP # 默认 DEFAULT_GROUP
+           refresh : true #是否自动刷新 默认false
+        #nacos server 中的dataid 要和这里的匹配上才能正常发现
+        #在默认情况下，nacos会加载${spring.application.name}.${file-extension:properties}的基础配置
+        #如果明确指定prefix 会加载${prefix}.${file-extension} 和 ${prefix}-${spring.profile.active}.${file-extension}
+        # 和 ${prefix}的配置
+        prefix: hellow-config #配置默认前缀 开启则不会加载基础配置
+        file-extension: properties #文件扩展名 默认properties

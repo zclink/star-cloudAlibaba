@@ -1,0 +1,18 @@
+dubbo:
+  registry:
+    address: spring-cloud://localhost
+  cloud:
+    subscribed-services: dubbo-provider
+
+spring:
+  application:
+    name: dubbo-consumer
+  main:
+    allow-bean-definition-overriding: true
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 10.16.0.21:8848,10.16.0.22:8848,10.16.0.23:8848
+        register-enabled: false
+
+
